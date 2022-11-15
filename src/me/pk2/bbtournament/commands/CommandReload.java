@@ -1,7 +1,7 @@
-package me.pk2.bbtournament.config.commands;
+package me.pk2.bbtournament.commands;
 
 import static me.pk2.bbtournament.config.def.ConfigLangDefault.LANG;
-import static me.pk2.bbtournament.config.util.LoadUtils._PREFIX;
+import static me.pk2.bbtournament.util.LoadUtils._PREFIX;
 
 import me.pk2.bbtournament.config.ConfigLoader;
 import org.bukkit.command.Command;

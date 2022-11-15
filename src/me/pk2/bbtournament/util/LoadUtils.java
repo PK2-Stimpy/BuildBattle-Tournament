@@ -1,4 +1,4 @@
-package me.pk2.bbtournament.config.util;
+package me.pk2.bbtournament.util;
 
 import static me.pk2.bbtournament.config.def.ConfigLangDefault.LANG;
 

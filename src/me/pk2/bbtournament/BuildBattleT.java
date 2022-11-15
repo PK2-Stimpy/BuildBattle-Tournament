@@ -1,9 +1,9 @@
 package me.pk2.bbtournament;
 
-import static me.pk2.bbtournament.config.util.LoadUtils._LOG;
+import static me.pk2.bbtournament.util.LoadUtils._LOG;
 
 import me.pk2.bbtournament.config.ConfigLoader;
-import me.pk2.bbtournament.config.commands.CommandReload;
+import me.pk2.bbtournament.commands.CommandReload;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public class BuildBattleT extends JavaPlugin {

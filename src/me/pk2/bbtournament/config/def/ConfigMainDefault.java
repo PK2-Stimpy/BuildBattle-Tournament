@@ -1,6 +1,6 @@
 package me.pk2.bbtournament.config.def;
 
-import static me.pk2.bbtournament.config.util.LoadUtils.*;
+import static me.pk2.bbtournament.util.LoadUtils.*;
 
 import me.pk2.bbtournament.BuildBattleT;
 import me.pk2.bbtournament.config.def.obj.BuildZoneObj;

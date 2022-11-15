@@ -6,8 +6,8 @@ import java.io.File;
 import java.io.InputStream;
 import java.io.PrintWriter;
 
-import static me.pk2.bbtournament.config.util.LoadUtils._CONFIG;
-import static me.pk2.bbtournament.config.util.LoadUtils._LOG;
+import static me.pk2.bbtournament.util.LoadUtils._CONFIG;
+import static me.pk2.bbtournament.util.LoadUtils._LOG;
 
 public class ConfigLangDefault {
     public static class LANG {
