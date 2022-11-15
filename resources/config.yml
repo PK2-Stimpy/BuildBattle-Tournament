@@ -1,0 +1,61 @@
+version: 1.0
+
+server:
+  hub_server: hub
+  group_required: test
+  database:
+    host: localhost
+    port: 3306
+    username: John
+    password: doe123
+    schema: buildbattle
+  scoreboard:
+    network_name: "&dIES La Mola"
+    server_name: TEST_1
+    server_ip: localhost
+  map:
+    name: Test Map
+    world: world
+    min_players: 2
+    time:
+      start: 60
+      game: 300
+      vote: 20
+    build_zone:
+      1:
+        world: world
+        spawn:
+          x: 0
+          y: 3
+          z: 0
+        spectator_spawn:
+          x: 0
+          y: 60
+          z: 0
+        floor:
+          x: [ 0, 10 ]
+          y: [ 2, 2 ]
+          z: [ 0, 10 ]
+        build:
+          x: [ 0, 10 ]
+          y: [ 2, 127 ]
+          z: [ 0, 10 ]
+      2:
+        world: world
+        spawn:
+          x: 100
+          y: 3
+          z: 100
+        spectator_spawn:
+          x: 100
+          y: 60
+          z: 100
+        floor:
+          x: [ 100, 110 ]
+          y: [ 2, 2 ]
+          z: [ 100, 110 ]
+        build:
+          x: [ 100, 110 ]
+          y: [ 2, 127 ]
+          z: [ 100, 110 ]
+    topics: [ "Selva", "Espada", "Guerra", "Caricatura", "Pelicula", "Cine", "Bombero", "Estacionamiento", "Restaurante", "Habitacion", "Pueblo", "Apocalipsis", "Carrera", "Pinguino", "Arbol", "Juguete", "Supermercado", "Biblioteca", "Retro", "Prehistoria", "Acuario", "Videojuego", "Infancia", "Medieval", "Cebra", "Elefante", "Universo", "Pascua", "Camara", "Edificio", "Experimento", "Ladron", "Pixelart", "Hot Dog", "Bandera", "Murcielago", "Unicorinio", "Teatro", "Guantes", "Vegetal", "Baño", "Parque de atracciones", "Astronauta", "Paleta", "Piramide" ]

@@ -1,0 +1,5 @@
+_version: 1.0
+
+PREFIX: "&8[&6BuildBattleTournament&8] &r"
+COMMAND_NO_PERMISSION: "&cYou don't have permission to use this command."
+COMMAND_RELOAD_SUCCESS: "&aSuccessfully reloaded the plugin."
