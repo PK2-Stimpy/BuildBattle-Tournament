@@ -2,3 +2,8 @@ name: BuildBattleTournament
 version: 1.0
 author: PK2_Stimpy
 main: me.pk2.bbtournament.BuildBattleT
+commands:
+  bb-reload:
+    description: Reloads the plugin
+    aliases: [buildbattle-reload]
+    usage: /bb-reload
