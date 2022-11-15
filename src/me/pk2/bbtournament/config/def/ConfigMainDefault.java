@@ -38,6 +38,10 @@ public class ConfigMainDefault {
             public static String name;
             public static World world;
             public static int min_players;
+            public static class win_event {
+                public static int positions;
+
+            }
             public static class time {
                 public static int
                         start,

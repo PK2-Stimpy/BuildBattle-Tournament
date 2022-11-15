@@ -17,12 +17,18 @@ server:
     name: Test Map
     world: world
     min_players: 2
+    win_event:
+      positions: 3
+      do:
+        0:
+          action: DB_RANKSET
+          value: Classified
     time:
       start: 60
       game: 300
       vote: 20
     build_zone:
-      1:
+      0:
         world: world
         spawn:
           x: 0
@@ -40,7 +46,7 @@ server:
           x: [ 0, 10 ]
           y: [ 2, 127 ]
           z: [ 0, 10 ]
-      2:
+      1:
         world: world
         spawn:
           x: 100
