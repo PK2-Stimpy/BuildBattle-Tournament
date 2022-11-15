@@ -1,7 +1,7 @@
 # BuildBattle Tournament Plugin
 This is a plugin for the BuildBattle Tournament of my school. It is a plugin that is used to manage the tournament and the players in it.
 
-### <b>It is still in development and is not ready for use.</b>
+### <b style="color:yellow; font-variant:small-caps;">it is still in development and is not ready for use.</b>
 
 <hr>
 
