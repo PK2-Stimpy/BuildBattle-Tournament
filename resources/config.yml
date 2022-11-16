@@ -4,11 +4,15 @@ server:
   hub_server: hub
   group_required: test
   database:
-    host: localhost
-    port: 3306
-    username: John
-    password: doe123
-    schema: buildbattle
+    use: remote
+    remote:
+      host: localhost
+      port: 3306
+      username: John
+      password: doe123
+      schema: buildbattle
+    local:
+      path: buildbattle.db
   scoreboard:
     network_name: "&dIES La Mola"
     server_name: TEST_1

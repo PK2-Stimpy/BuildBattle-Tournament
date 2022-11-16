@@ -4,6 +4,8 @@ import static me.pk2.bbtournament.util.LoadUtils.*;
 
 import me.pk2.bbtournament.BuildBattleT;
 import me.pk2.bbtournament.config.def.obj.BuildZoneObj;
+import me.pk2.bbtournament.config.def.obj.WinEventDoObj;
+import me.pk2.bbtournament.config.def.obj.action.WinEventAction;
 import me.pk2.bbtournament.config.def.obj.vec.Vec23d;
 import me.pk2.bbtournament.config.def.obj.vec.Vec3d;
 import org.bukkit.World;
@@ -24,9 +26,15 @@ public class ConfigMainDefault {
     public static class server {
         public static String hub_server, group_required;
         public static class database {
-            public static String host;
-            public static int port;
-            public static String username, password, schema;
+            public static String use;
+            public static class remote {
+                public static String host;
+                public static int port;
+                public static String username, password, schema;
+            }
+            public static class local {
+                public static String path;
+            }
         }
         public static class scoreboard {
             public static String
@@ -40,7 +48,7 @@ public class ConfigMainDefault {
             public static int min_players;
             public static class win_event {
                 public static int positions;
-
+                public static List<WinEventDoObj> _do;
             }
             public static class time {
                 public static int
@@ -100,11 +108,13 @@ public class ConfigMainDefault {
         server.hub_server = CONFIG.getString("server.hub_server");
         server.group_required = CONFIG.getString("server.group_required");
 
-        server.database.host = CONFIG.getString("server.database.host");
-        server.database.port = CONFIG.getInt("server.database.port");
-        server.database.username = CONFIG.getString("server.database.username");
-        server.database.password = CONFIG.getString("server.database.password");
-        server.database.schema = CONFIG.getString("server.database.schema");
+        server.database.use = CONFIG.getString("server.database.use");
+        server.database.remote.host = CONFIG.getString("server.database.remote.host");
+        server.database.remote.port = CONFIG.getInt("server.database.remote.port");
+        server.database.remote.username = CONFIG.getString("server.database.remote.username");
+        server.database.remote.password = CONFIG.getString("server.database.remote.password");
+        server.database.remote.schema = CONFIG.getString("server.database.remote.schema");
+        server.database.local.path = CONFIG.getString("server.database.local.path");
 
         server.scoreboard.network_name = CONFIG.getString("server.scoreboard.network_name");
         server.scoreboard.server_name = CONFIG.getString("server.scoreboard.server_name");
@@ -113,6 +123,19 @@ public class ConfigMainDefault {
         server.map.name = CONFIG.getString("server.map.name");
         server.map.world = getWorldOrDefault(CONFIG.getString("server.map.world"));
         server.map.min_players = CONFIG.getInt("server.map.min_players");
+
+        server.map.win_event.positions = CONFIG.getInt("server.map.win_event.positions");
+        server.map.win_event._do = new ArrayList<>();
+        for(String key : CONFIG.getConfigurationSection("server.map.win_event.do").getKeys(false)) {
+            _LOG("config.yml", "Loading win event do " + key + "...");
+
+            ConfigurationSection section = CONFIG.getConfigurationSection("server.map.win_event.do." + key);
+            server.map.win_event._do.add(new WinEventDoObj(
+                    WinEventAction.get(section.getString("action")),
+                    section.getString("value")
+            ));
+        }
+
         server.map.time.start = CONFIG.getInt("server.map.time.start");
         server.map.time.game = CONFIG.getInt("server.map.time.game");
         server.map.time.vote = CONFIG.getInt("server.map.time.vote");
@@ -186,12 +209,14 @@ public class ConfigMainDefault {
         
         CONFIG.set("server.hub_server", server.hub_server);
         CONFIG.set("server.group_required", server.group_required);
-        
-        CONFIG.set("server.database.host", server.database.host);
-        CONFIG.set("server.database.port", server.database.port);
-        CONFIG.set("server.database.username", server.database.username);
-        CONFIG.set("server.database.password", server.database.password);
-        CONFIG.set("server.database.schema", server.database.schema);
+
+        CONFIG.set("server.database.use", server.database.use);
+        CONFIG.set("server.database.remote.host", server.database.remote.host);
+        CONFIG.set("server.database.remote.port", server.database.remote.port);
+        CONFIG.set("server.database.remote.username", server.database.remote.username);
+        CONFIG.set("server.database.remote.password", server.database.remote.password);
+        CONFIG.set("server.database.remote.schema", server.database.remote.schema);
+        CONFIG.set("server.database.local.path", server.database.local.path);
         
         CONFIG.set("server.scoreboard.network_name", server.scoreboard.network_name);
         CONFIG.set("server.scoreboard.server_name", server.scoreboard.server_name);
@@ -200,6 +225,15 @@ public class ConfigMainDefault {
         CONFIG.set("server.map.name", server.map.name);
         CONFIG.set("server.map.world", server.map.world.getName());
         CONFIG.set("server.map.min_players", server.map.min_players);
+
+        CONFIG.set("server.map.win_event.positions", server.map.win_event.positions);
+        for(int i = 0; i < server.map.win_event._do.size(); i++) {
+            _LOG("config.yml", "Saving win event do " + i + "...");
+
+            CONFIG.set("server.map.win_event.do." + i + ".action", server.map.win_event._do.get(i).action.name());
+            CONFIG.set("server.map.win_event.do." + i + ".value", server.map.win_event._do.get(i).value);
+        }
+
         CONFIG.set("server.map.time.start", server.map.time.start);
         CONFIG.set("server.map.time.game", server.map.time.game);
         CONFIG.set("server.map.time.vote", server.map.time.vote);
