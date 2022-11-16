@@ -5,6 +5,7 @@ import static me.pk2.bbtournament.util.LoadUtils._LOG;
 import me.pk2.bbtournament.api.DatabaseAPI;
 import me.pk2.bbtournament.api.db.GroupsAPI;
 import me.pk2.bbtournament.api.db.UsersAPI;
+import me.pk2.bbtournament.commands.CommandExit;
 import me.pk2.bbtournament.config.ConfigLoader;
 import me.pk2.bbtournament.commands.CommandReload;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -39,7 +40,7 @@ public class BuildBattleT extends JavaPlugin {
 
         _LOG("Loading commands...");
         getCommand("bb-reload").setExecutor(new CommandReload());
-        getCommand("buildbattle-reload").setExecutor(new CommandReload());
+        getCommand("exit").setExecutor(new CommandExit());
 
         _LOG("BuildBattleTournament has been enabled!");
     }

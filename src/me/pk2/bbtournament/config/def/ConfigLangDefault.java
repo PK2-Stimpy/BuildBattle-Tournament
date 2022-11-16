@@ -1,5 +1,6 @@
 package me.pk2.bbtournament.config.def;
 
+import jdk.nashorn.internal.ir.annotations.Ignore;
 import org.bukkit.configuration.file.YamlConfiguration;
 
 import java.io.File;
@@ -12,7 +13,12 @@ import static me.pk2.bbtournament.util.LoadUtils._LOG;
 public class ConfigLangDefault {
     public static class LANG {
         public static String _version;
-        public static String PREFIX, COMMAND_NO_PERMISSION, COMMAND_RELOAD_SUCCESS;
+        public static String
+                PREFIX,
+                COMMAND_NO_PERMISSION,
+                COMMAND_MUST_BE_PLAYER,
+                COMMAND_RELOAD_SUCCESS,
+                COMMAND_EXIT;
     }
 
     public static YamlConfiguration CONFIG;
