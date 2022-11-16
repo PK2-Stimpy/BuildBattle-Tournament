@@ -54,7 +54,8 @@ public class ConfigMainDefault {
                 public static int
                         start,
                         game,
-                        vote;
+                        vote,
+                        end;
             }
             public static List<BuildZoneObj> build_zone;
             public static List<String> topics;
@@ -139,6 +140,7 @@ public class ConfigMainDefault {
         server.map.time.start = CONFIG.getInt("server.map.time.start");
         server.map.time.game = CONFIG.getInt("server.map.time.game");
         server.map.time.vote = CONFIG.getInt("server.map.time.vote");
+        server.map.time.end = CONFIG.getInt("server.map.time.end");
 
         _LOG("config.yml", "Map name " + server.map.name);
 
@@ -237,6 +239,7 @@ public class ConfigMainDefault {
         CONFIG.set("server.map.time.start", server.map.time.start);
         CONFIG.set("server.map.time.game", server.map.time.game);
         CONFIG.set("server.map.time.vote", server.map.time.vote);
+        CONFIG.set("server.map.time.end", server.map.time.end);
         
         CONFIG.set("server.map.build_zone", null);
         for(int i = 0; i < server.map.build_zone.size(); i++) {

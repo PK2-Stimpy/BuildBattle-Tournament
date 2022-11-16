@@ -18,5 +18,7 @@
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" name="paper-api-1.12.2-R0.1-20190714.184133-413" level="project" />
+    <orderEntry type="library" name="com.mysql.jdbc_5.1.5" level="project" />
+    <orderEntry type="library" name="sqlite-jdbc-3.39.4.0" level="project" />
   </component>
 </module>

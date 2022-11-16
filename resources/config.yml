@@ -1,52 +1,53 @@
-version: 1.0
+version: 1.0 # Version of the config file (DO NOT CHANGE THIS OR ELSE IT WILL REVERT TO DEFAULT)
 
 server:
-  hub_server: hub
-  group_required: test
+  hub_server: hub # The name of the hub server
+  group_required: test # The group required to join the server
   database:
-    use: remote
+    use: remote # local or remote
     remote:
-      host: localhost
-      port: 3306
-      username: John
-      password: doe123
-      schema: buildbattle
+      host: localhost # The host of the database
+      port: 3306 # The port of the database
+      username: John # The username of the database
+      password: doe123 # The password of the database
+      schema: buildbattle # The schema of the database
     local:
-      path: buildbattle.db
+      path: buildbattle.db # The path of the sqlite database
   scoreboard:
-    network_name: "&dIES La Mola"
-    server_name: TEST_1
-    server_ip: localhost
+    network_name: "&dIES La Mola" # The name of the network
+    server_name: TEST_1 # The name of the server
+    server_ip: localhost # The ip of the server
   map:
-    name: Test Map
-    world: world
-    min_players: 2
+    name: Test Map # The name of the map
+    world: world # The name of the world
+    min_players: 2 # The minimum players required to start the game
     win_event:
-      positions: 3
+      positions: 3 # The positions that will be rewarded
       do:
         0:
-          action: DB_RANKSET
-          value: Classified
-    time:
-      start: 60
-      game: 300
-      vote: 20
-    build_zone:
+          action: DB_RANKSET # The action to do
+          value: Classified # The value of the action
+    time: # The time of the game measured in seconds
+      start: 60 # The time before the game starts
+      game: 300 # The time before the game ends
+      vote: 20 # The time of each vote
+      end: 10 # The time before the server restarts
+    build_zone: # The build zone of the map
       0:
-        world: world
-        spawn:
+        world: world # The world of the build zone
+        spawn: # The spawn of the build zone (where the players will be teleported)
           x: 0
           y: 3
           z: 0
-        spectator_spawn:
+        spectator_spawn: # The spectator spawn of the build zone (the area where the players will be teleported when the game ends)
           x: 0
           y: 60
           z: 0
-        floor:
+        floor: # The floor of the build zone (the area where the floor is)
           x: [ 0, 10 ]
           y: [ 2, 2 ]
           z: [ 0, 10 ]
-        build:
+        build: # The build area of the build zone (the area where the players can build)
           x: [ 0, 10 ]
           y: [ 2, 127 ]
           z: [ 0, 10 ]
