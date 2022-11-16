@@ -3,8 +3,8 @@ package me.pk2.bbtournament;
 import static me.pk2.bbtournament.util.LoadUtils._LOG;
 
 import me.pk2.bbtournament.api.DatabaseAPI;
-import me.pk2.bbtournament.api.obj.GroupsAPI;
-import me.pk2.bbtournament.api.obj.UsersAPI;
+import me.pk2.bbtournament.api.db.GroupsAPI;
+import me.pk2.bbtournament.api.db.UsersAPI;
 import me.pk2.bbtournament.config.ConfigLoader;
 import me.pk2.bbtournament.commands.CommandReload;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -17,6 +17,9 @@ public class BuildBattleT extends JavaPlugin {
     @Override
     public void onEnable() {
         INSTANCE = this;
+
+        _LOG("Registering bungee channels...");
+        getServer().getMessenger().registerOutgoingPluginChannel(this, "BungeeCord");
 
         _LOG("Loading config...");
         ConfigLoader.load();

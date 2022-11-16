@@ -1,4 +1,4 @@
-package me.pk2.bbtournament.api.obj;
+package me.pk2.bbtournament.api.db;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
