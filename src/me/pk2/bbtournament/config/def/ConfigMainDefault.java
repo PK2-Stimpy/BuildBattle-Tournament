@@ -6,6 +6,7 @@ import me.pk2.bbtournament.BuildBattleT;
 import me.pk2.bbtournament.config.def.obj.BuildZoneObj;
 import me.pk2.bbtournament.config.def.obj.WinEventDoObj;
 import me.pk2.bbtournament.config.def.obj.action.WinEventAction;
+import me.pk2.bbtournament.config.def.obj.mode.ServerMode;
 import me.pk2.bbtournament.config.def.obj.vec.Vec23d;
 import me.pk2.bbtournament.config.def.obj.vec.Vec3d;
 import org.bukkit.World;
@@ -24,6 +25,7 @@ public class ConfigMainDefault {
 
     public static String version;
     public static class server {
+        public static ServerMode mode;
         public static String hub_server, group_required;
         public static class database {
             public static String use;
@@ -106,6 +108,7 @@ public class ConfigMainDefault {
             } catch (Exception exception) { exception.printStackTrace(); }
         }
 
+        server.mode = ServerMode.get(CONFIG.getString("server.mode"));
         server.hub_server = CONFIG.getString("server.hub_server");
         server.group_required = CONFIG.getString("server.group_required");
 
@@ -208,7 +211,8 @@ public class ConfigMainDefault {
         _LOG("config.yml", "Saving config.yml...");
 
         CONFIG.set("version", version);
-        
+
+        CONFIG.set("server.mode", server.mode.name());
         CONFIG.set("server.hub_server", server.hub_server);
         CONFIG.set("server.group_required", server.group_required);
 

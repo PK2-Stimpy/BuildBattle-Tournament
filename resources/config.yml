@@ -1,6 +1,7 @@
 version: 1.0 # Version of the config file (DO NOT CHANGE THIS OR ELSE IT WILL REVERT TO DEFAULT)
 
 server:
+  mode: EDIT # The mode can be either EDIT or PLAY. EDIT will allow you to edit the server, while PLAY will allow you to play on the server
   hub_server: hub # The name of the hub server
   group_required: test # The group required to join the server
   database:
