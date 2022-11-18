@@ -74,6 +74,11 @@ public class CommandBuildBattle implements CommandExecutor {
         sender.sendMessage(_COLOR("&7------&e" + page + "/3&7-------------"));
     }
 
+    private void spacedArray(String[] arr, int sid, int lid) {
+        for(int i = lid; i < arr.length; i++)
+            arr[sid] = arr[i] + ((i==arr.length-1)?"":" ");
+    }
+
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         if(args.length < 1) {
@@ -256,6 +261,86 @@ public class CommandBuildBattle implements CommandExecutor {
                                         break;
                                 }
                             } break;
+                            case "local": {
+                                if(args.length < 4) {
+                                    sendHelpCommand(sender, 1);
+                                    break;
+                                }
+
+                                if ("path".contentEquals(args[3].toLowerCase(Locale.ROOT))) {
+                                    if (args.length < 5) {
+                                        sender.sendMessage(_PREFIX(LANG.COMMAND_BBT_CONFIG_DB_LOCAL_PATH)
+                                                .replaceAll("%path%", server.database.local.path));
+                                        break;
+                                    }
+
+                                    server.database.local.path = args[4];
+                                    sender.sendMessage(_PREFIX(LANG.COMMAND_BBT_CONFIG_DB_LOCAL_PATH_SET)
+                                            .replaceAll("%path%", server.database.local.path));
+                                } else sendHelpCommand(sender, 2);
+                            } break;
+                        }
+                    } break;
+                    case "score": {
+                        if(args.length < 3) {
+                            sendHelpCommand(sender, 2);
+                            break;
+                        }
+
+                        switch(args[2].toLowerCase()) {
+                            case "network_name": {
+                                if(args.length < 4) {
+                                    sender.sendMessage(_PREFIX(LANG.COMMAND_BBT_CONFIG_SCORE_NETWORKNAME)
+                                            .replaceAll("%network_name%", server.scoreboard.network_name));
+                                    break;
+                                }
+
+                                spacedArray(args, 3, 4);
+
+                                server.scoreboard.network_name = args[3];
+                                sender.sendMessage(_PREFIX(LANG.COMMAND_BBT_CONFIG_SCORE_NETWORKNAME_SET)
+                                        .replaceAll("%network_name%", server.scoreboard.network_name));
+                            } break;
+                            case "server_name": {
+                                if(args.length < 4) {
+                                    sender.sendMessage(_PREFIX(LANG.COMMAND_BBT_CONFIG_SCORE_SERVERNAME)
+                                            .replaceAll("%server_name%", server.scoreboard.server_name));
+                                    break;
+                                }
+
+                                server.scoreboard.server_name = args[3];
+                                sender.sendMessage(_PREFIX(LANG.COMMAND_BBT_CONFIG_SCORE_SERVERNAME_SET)
+                                        .replaceAll("%server_name%", server.scoreboard.server_name));
+                            } break;
+                            case "server_ip": {
+                                if(args.length < 4) {
+                                    sender.sendMessage(_PREFIX(LANG.COMMAND_BBT_CONFIG_SCORE_SERVERIP)
+                                            .replaceAll("%server_ip%", server.scoreboard.server_ip));
+                                    break;
+                                }
+
+                                server.scoreboard.server_ip = args[3];
+                                sender.sendMessage(_PREFIX(LANG.COMMAND_BBT_CONFIG_SCORE_SERVERIP_SET)
+                                        .replaceAll("%server_ip%", server.scoreboard.server_ip));
+                            } break;
+
+                            default:
+                                sendHelpCommand(sender, 2);
+                                break;
+                        }
+                    } break;
+                    case "map": {
+                        if(args.length < 3) {
+                            sendHelpCommand(sender, 2);
+                            break;
+                        }
+
+                        switch(args[2].toLowerCase()) {
+
+
+                            default:
+                                sendHelpCommand(sender, 2);
+                                break;
                         }
                     } break;
 
