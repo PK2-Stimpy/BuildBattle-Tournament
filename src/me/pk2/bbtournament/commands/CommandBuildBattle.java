@@ -2,7 +2,10 @@ package me.pk2.bbtournament.commands;
 
 import me.pk2.bbtournament.api.db.GroupsAPI;
 import me.pk2.bbtournament.config.def.ConfigMainDefault;
+import me.pk2.bbtournament.config.def.obj.WinEventDoObj;
+import me.pk2.bbtournament.config.def.obj.action.WinEventAction;
 import me.pk2.bbtournament.config.def.obj.mode.ServerMode;
+import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -48,11 +51,10 @@ public class CommandBuildBattle implements CommandExecutor {
                         "  &a/bb config score server_name [name]\n" +
                         "  &a/bb config score server_ip [ip]\n" +
                         "  &a/bb config map name [name]\n" +
-                        "  &a/bb config map world ['show']\n" +
+                        "  &a/bb config map world [world]\n" +
                         "  &a/bb config map min_players [players]\n" +
                         "  &a/bb config map win_event list" +
-                        "  &a/bb config map win_event positions [pos]\n" +
-                        "  &a/bb config map win_event get <idx>"));
+                        "  &a/bb config map win_event positions [pos]\n"));
                 break;
             case 3:
             default:
@@ -65,8 +67,7 @@ public class CommandBuildBattle implements CommandExecutor {
                         "  &a/bb config map time end [sec]\n" +
                         "  &a/bb config map build_zone list\n" +
                         "  &a/bb config map build_zone add\n" +
-                        "  &a/bb config map build_zone rem\n" +
-                        "  &a/bb config map build_zone get <idx>\n" +
+                        "  &a/bb config map build_zone rem <idx>\n" +
                         "  &a/bb config topics [set/rem] [topic]\n"));
                 break;
         }
@@ -336,7 +337,165 @@ public class CommandBuildBattle implements CommandExecutor {
                         }
 
                         switch(args[2].toLowerCase()) {
+                            case "name": {
+                                if(args.length < 4) {
+                                    sender.sendMessage(_PREFIX(LANG.COMMAND_BBT_CONFIG_MAP_NAME)
+                                            .replaceAll("%map_name%", server.map.name));
+                                    break;
+                                }
 
+                                spacedArray(args, 3, 4);
+
+                                server.map.name = args[3];
+                                sender.sendMessage(_PREFIX(LANG.COMMAND_BBT_CONFIG_MAP_NAME_SET)
+                                        .replaceAll("%map_name%", server.map.name));
+                            } break;
+                            case "world": {
+                                if(args.length < 4) {
+                                    sender.sendMessage(_PREFIX(LANG.COMMAND_BBT_CONFIG_MAP_WORLD)
+                                            .replaceAll("%map_world%", server.map.world.getName()));
+                                    break;
+                                }
+
+                                spacedArray(args, 3, 3);
+
+                                server.map.world = Bukkit.getWorld(args[3]);
+                                sender.sendMessage(_PREFIX(LANG.COMMAND_BBT_CONFIG_MAP_WORLD_SET)
+                                        .replaceAll("%map_world%", server.map.world.getName()));
+                            } break;
+                            case "min_players": {
+                                if(args.length < 4) {
+                                    sender.sendMessage(_PREFIX(LANG.COMMAND_BBT_CONFIG_MAP_MINPLAYERS)
+                                            .replaceAll("%min_players%", String.valueOf(server.map.min_players)));
+                                    break;
+                                }
+
+                                server.map.min_players = Integer.parseInt(args[3]);
+                                sender.sendMessage(_PREFIX(LANG.COMMAND_BBT_CONFIG_MAP_MINPLAYERS_SET)
+                                        .replaceAll("%min_players%", String.valueOf(server.map.min_players)));
+                            } break;
+                            case "win_event": {
+                                if(args.length < 4) {
+                                    sendHelpCommand(sender, 2);
+                                    break;
+                                }
+
+                                switch(args[3].toLowerCase(Locale.ROOT)) {
+                                    case "list": {
+                                        sender.sendMessage(_PREFIX(LANG.COMMAND_BBT_CONFIG_MAP_WIN_EVENT_LIST));
+
+                                        WinEventDoObj event;
+                                        for(int i = 0; i < server.map.win_event._do.size(); i++) {
+                                            event = server.map.win_event._do.get(i);
+
+                                            sender.sendMessage(" " + i + ". " + event.action.name() + "(\"" + event.value + "\")");
+                                        }
+                                    } break;
+                                    case "positions": {
+                                        if(args.length < 5) {
+                                            sender.sendMessage(_PREFIX(LANG.COMMAND_BBT_CONFIG_MAP_WIN_EVENT_POSITIONS)
+                                                    .replaceAll("%positions%", String.valueOf(server.map.win_event.positions)));
+                                            break;
+                                        }
+
+                                        server.map.win_event.positions = Integer.parseInt(args[4]);
+                                        sender.sendMessage(_PREFIX(LANG.COMMAND_BBT_CONFIG_MAP_WIN_EVENT_POSITIONS_SET)
+                                                .replaceAll("%positions%", String.valueOf(server.map.win_event.positions)));
+                                    } break;
+                                    case "add": {
+                                        if(args.length < 6) {
+                                            sendHelpCommand(sender, 3);
+                                            break;
+                                        }
+
+                                        spacedArray(args, 4, 4);
+
+                                        WinEventDoObj event = new WinEventDoObj(WinEventAction.get(args[4].toUpperCase(Locale.ROOT)), args[5]);
+
+                                        server.map.win_event._do.add(event);
+                                        sender.sendMessage(_PREFIX(LANG.COMMAND_BBT_CONFIG_MAP_WIN_EVENT_ADD)
+                                                .replaceAll("%action%", event.action.name())
+                                                .replaceAll("%value%", event.value));
+                                    } break;
+                                    case "rem": {
+                                        if(args.length < 5) {
+                                            sendHelpCommand(sender, 3);
+                                            break;
+                                        }
+
+                                        int index = Integer.parseInt(args[4]);
+                                        if(index < 0 || index >= server.map.win_event._do.size()) {
+                                            sender.sendMessage(_PREFIX(LANG.COMMAND_BBT_CONFIG_MAP_WIN_EVENT_REM_INVALID_INDEX));
+                                            break;
+                                        }
+
+                                        server.map.win_event._do.remove(index);
+                                        sender.sendMessage(_PREFIX(LANG.COMMAND_BBT_CONFIG_MAP_WIN_EVENT_REM)
+                                                .replaceAll("%index%", String.valueOf(index)));
+                                    } break;
+
+                                    default:
+                                        sendHelpCommand(sender, 2);
+                                        break;
+                                }
+                            } break;
+                            case "time": {
+                                if(args.length < 4) {
+                                    sendHelpCommand(sender, 3);
+                                    break;
+                                }
+
+                                switch(args[3].toLowerCase(Locale.ROOT)) {
+                                    case "start": {
+                                        if(args.length < 5) {
+                                            sender.sendMessage(_PREFIX(LANG.COMMAND_BBT_CONFIG_MAP_TIME_START)
+                                                    .replaceAll("%start_time%", String.valueOf(server.map.time.start)));
+                                            break;
+                                        }
+
+                                        server.map.time.start = Integer.parseInt(args[4]);
+                                        sender.sendMessage(_PREFIX(LANG.COMMAND_BBT_CONFIG_MAP_TIME_START_SET)
+                                                .replaceAll("%start_time%", String.valueOf(server.map.time.start)));
+                                    } break;
+                                    case "game": {
+                                        if(args.length < 5) {
+                                            sender.sendMessage(_PREFIX(LANG.COMMAND_BBT_CONFIG_MAP_TIME_GAME)
+                                                    .replaceAll("%game_time%", String.valueOf(server.map.time.game)));
+                                            break;
+                                        }
+
+                                        server.map.time.game = Integer.parseInt(args[4]);
+                                        sender.sendMessage(_PREFIX(LANG.COMMAND_BBT_CONFIG_MAP_TIME_GAME_SET)
+                                                .replaceAll("%game_time%", String.valueOf(server.map.time.game)));
+                                    } break;
+                                    case "vote": {
+                                        if(args.length < 5) {
+                                            sender.sendMessage(_PREFIX(LANG.COMMAND_BBT_CONFIG_MAP_TIME_VOTE)
+                                                    .replaceAll("%vote_time%", String.valueOf(server.map.time.vote)));
+                                            break;
+                                        }
+
+                                        server.map.time.vote = Integer.parseInt(args[4]);
+                                        sender.sendMessage(_PREFIX(LANG.COMMAND_BBT_CONFIG_MAP_TIME_VOTE_SET)
+                                                .replaceAll("%vote_time%", String.valueOf(server.map.time.vote)));
+                                    } break;
+                                    case "end": {
+                                        if(args.length < 5) {
+                                            sender.sendMessage(_PREFIX(LANG.COMMAND_BBT_CONFIG_MAP_TIME_END)
+                                                    .replaceAll("%end_time%", String.valueOf(server.map.time.end)));
+                                            break;
+                                        }
+
+                                        server.map.time.end = Integer.parseInt(args[4]);
+                                        sender.sendMessage(_PREFIX(LANG.COMMAND_BBT_CONFIG_MAP_TIME_END_SET)
+                                                .replaceAll("%end_time%", String.valueOf(server.map.time.end)));
+                                    } break;
+
+                                    default:
+                                        sendHelpCommand(sender, 3);
+                                        break;
+                                }
+                            } break;
 
                             default:
                                 sendHelpCommand(sender, 2);
