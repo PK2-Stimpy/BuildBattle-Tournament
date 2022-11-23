@@ -12,5 +12,8 @@ public class Vec23d {
         this.z1 = z1;
         this.z2 = z2;
     }
+
+    @Override
+    public String toString() { return String.format("Vec32d((%s,%s,%s),(%s,%s,%s))", x1, y1, z1, x2, y2, z2); }
 }
 

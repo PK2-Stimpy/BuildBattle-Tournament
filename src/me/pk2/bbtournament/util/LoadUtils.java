@@ -6,6 +6,7 @@ import me.pk2.bbtournament.BuildBattleT;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.World;
+import org.bukkit.entity.Player;
 
 public class LoadUtils {
     public static World getWorldOrDefault(String worldName) {
@@ -20,4 +21,5 @@ public class LoadUtils {
     public static void _LOG(String message) { BuildBattleT.INSTANCE.getLogger().info(message); }
     public static String _COLOR(String text) { return ChatColor.translateAlternateColorCodes('&', text); }
     public static String _PREFIX(String text) { return _COLOR(LANG.PREFIX + text); }
+    public static String _UUID(Player player) { return player.getUniqueId().toString().toLowerCase(); }
 }

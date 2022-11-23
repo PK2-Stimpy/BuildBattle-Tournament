@@ -8,6 +8,7 @@ import me.pk2.bbtournament.api.db.UsersAPI;
 import me.pk2.bbtournament.commands.CommandExit;
 import me.pk2.bbtournament.config.ConfigLoader;
 import me.pk2.bbtournament.commands.CommandReload;
+import me.pk2.bbtournament.listeners.BuildZoneAddListener;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.List;
@@ -41,6 +42,9 @@ public class BuildBattleT extends JavaPlugin {
         _LOG("Loading commands...");
         getCommand("bb-reload").setExecutor(new CommandReload());
         getCommand("exit").setExecutor(new CommandExit());
+
+        _LOG("Loading listeners...");
+        getServer().getPluginManager().registerEvents(new BuildZoneAddListener(), this);
 
         _LOG("BuildBattleTournament has been enabled!");
     }

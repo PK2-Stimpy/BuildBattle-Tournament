@@ -2,6 +2,7 @@ package me.pk2.bbtournament.commands;
 
 import me.pk2.bbtournament.api.db.GroupsAPI;
 import me.pk2.bbtournament.config.def.ConfigMainDefault;
+import me.pk2.bbtournament.config.def.obj.BuildZoneObj;
 import me.pk2.bbtournament.config.def.obj.WinEventDoObj;
 import me.pk2.bbtournament.config.def.obj.action.WinEventAction;
 import me.pk2.bbtournament.config.def.obj.mode.ServerMode;
@@ -11,14 +12,24 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
+import java.util.HashMap;
 import java.util.Locale;
 
 import static me.pk2.bbtournament.config.def.ConfigMainDefault.server;
 import static me.pk2.bbtournament.config.def.ConfigLangDefault.LANG;
-import static me.pk2.bbtournament.util.LoadUtils._PREFIX;
-import static me.pk2.bbtournament.util.LoadUtils._COLOR;
+import static me.pk2.bbtournament.util.LoadUtils.*;
+import static me.pk2.bbtournament.commands.CommandBuildBattle.AddBuildStatus.*;
 
 public class CommandBuildBattle implements CommandExecutor {
+    public static final HashMap<String, AddBuildStatus> hashZone = new HashMap<>();
+    public static enum AddBuildStatus {
+        STATUS_SPAWN,
+        STATUS_SPECSPAWN,
+        STATUS_FLOOR1,
+        STATUS_FLOOR2,
+        STATUS_BUILD1,
+        STATUS_BUILD2}
+
     private void sendHelpCommand(CommandSender sender, int page) {
         sender.sendMessage(_COLOR("" +
                 "&7&m--------------------\n" +
@@ -68,7 +79,7 @@ public class CommandBuildBattle implements CommandExecutor {
                         "  &a/bb config map build_zone list\n" +
                         "  &a/bb config map build_zone add\n" +
                         "  &a/bb config map build_zone rem <idx>\n" +
-                        "  &a/bb config topics [set/rem] [topic]\n"));
+                        "  &a/bb config topics [add/rem] [topic]\n"));
                 break;
         }
 
@@ -489,6 +500,115 @@ public class CommandBuildBattle implements CommandExecutor {
                                         server.map.time.end = Integer.parseInt(args[4]);
                                         sender.sendMessage(_PREFIX(LANG.COMMAND_BBT_CONFIG_MAP_TIME_END_SET)
                                                 .replaceAll("%end_time%", String.valueOf(server.map.time.end)));
+                                    } break;
+
+                                    default:
+                                        sendHelpCommand(sender, 3);
+                                        break;
+                                }
+                            } break;
+                            case "build_zone": {
+                                if(args.length < 4) {
+                                    sendHelpCommand(sender, 3);
+                                    break;
+                                }
+
+                                switch(args[3].toLowerCase(Locale.ROOT)) {
+                                    case "list": {
+                                        sender.sendMessage(_PREFIX(LANG.COMMAND_BBT_CONFIG_MAP_BUILD_ZONE_LIST));
+
+                                        BuildZoneObj zone;
+                                        for(int i = 0; i < server.map.build_zone.size(); i++) {
+                                            zone = server.map.build_zone.get(i);
+                                            sender.sendMessage(" - " + i + "{" +
+                                                    "SP=" + zone.spawn + ", " +
+                                                    "SS=" + zone.spectator_spawn + ", " +
+                                                    "FL=" + zone.floor + ", " +
+                                                    "BU=" + zone.build + ", " +
+                                                    "WO=" + zone.world.getName() + "}");
+                                        }
+                                    } break;
+                                    case "add": {
+                                        if(!(sender instanceof Player)) {
+                                            sender.sendMessage(_PREFIX(LANG.COMMAND_BBT_CONFIG_MAP_BUILD_ZONE_PLAYER_ONLY));
+                                            break;
+                                        }
+                                        Player player = (Player) sender;
+                                        if(hashZone.containsKey(_UUID(player))) {
+                                            sender.sendMessage(_PREFIX(LANG.COMMAND_BBT_CONFIG_MAP_BUILD_ZONE_ALREADY_ADDING));
+                                            break;
+                                        }
+
+                                        hashZone.put(_UUID(player), STATUS_SPAWN);
+                                        sender.sendMessage(_PREFIX(LANG.COMMAND_BBT_CONFIG_MAP_BUILD_ZONE_ASK_SPAWN));
+                                    } break;
+                                    case "rem": {
+                                        if(args.length < 5) {
+                                            sendHelpCommand(sender, 3);
+                                            break;
+                                        }
+
+                                        int index = Integer.parseInt(args[4]);
+                                        if(index < 0 || index >= server.map.build_zone.size()) {
+                                            sender.sendMessage(_PREFIX(LANG.COMMAND_BBT_CONFIG_MAP_BUILD_ZONE_REM_INVALID_INDEX));
+                                            break;
+                                        }
+
+                                        server.map.build_zone.remove(index);
+                                        sender.sendMessage(_PREFIX(LANG.COMMAND_BBT_CONFIG_MAP_BUILD_ZONE_REM)
+                                                .replaceAll("%index%", String.valueOf(index)));
+                                    } break;
+
+                                    default:
+                                        sendHelpCommand(sender, 3);
+                                        break;
+                                }
+                            } break;
+                            case "topics": {
+                                if(args.length < 4) {
+                                    sender.sendMessage(_PREFIX(LANG.COMMAND_BBT_CONFIG_MAP_TOPICS)
+                                            .replaceAll("%topics%", String.join(", ", server.map.topics)));
+                                    break;
+                                }
+
+                                switch(args[3].toLowerCase(Locale.ROOT)) {
+                                    case "add": {
+                                        if(args.length < 5) {
+                                            sendHelpCommand(sender, 3);
+                                            break;
+                                        }
+
+                                        spacedArray(args, 4, 4);
+
+                                        String topic = args[4];
+                                        if(server.map.topics.contains(topic)) {
+                                            sender.sendMessage(_PREFIX(LANG.COMMAND_BBT_CONFIG_MAP_TOPICS_ADD_ALREADY_EXIST)
+                                                    .replaceAll("%topic%", topic));
+                                            break;
+                                        }
+
+                                        server.map.topics.add(topic);
+                                        sender.sendMessage(_PREFIX(LANG.COMMAND_BBT_CONFIG_MAP_TOPICS_ADD)
+                                                .replaceAll("%topic%", topic));
+                                    } break;
+                                    case "rem": {
+                                        if(args.length < 5) {
+                                            sendHelpCommand(sender, 3);
+                                            break;
+                                        }
+
+                                        spacedArray(args, 4, 4);
+
+                                        String topic = args[4];
+                                        if(!server.map.topics.contains(topic)) {
+                                            sender.sendMessage(_PREFIX(LANG.COMMAND_BBT_CONFIG_MAP_TOPICS_REM_NOT_EXIST)
+                                                    .replaceAll("%topic%", topic));
+                                            break;
+                                        }
+
+                                        server.map.topics.remove(topic);
+                                        sender.sendMessage(_PREFIX(LANG.COMMAND_BBT_CONFIG_MAP_TOPICS_REM)
+                                                .replaceAll("%topic%", topic));
                                     } break;
 
                                     default:
