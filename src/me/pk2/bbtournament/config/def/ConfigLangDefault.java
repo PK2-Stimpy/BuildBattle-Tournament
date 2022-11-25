@@ -87,7 +87,14 @@ public class ConfigLangDefault {
                 COMMAND_BBT_CONFIG_MAP_TOPICS_ADD_ALREADY_EXIST,
                 COMMAND_BBT_CONFIG_MAP_TOPICS_ADD,
                 COMMAND_BBT_CONFIG_MAP_TOPICS_REM_NOT_EXIST,
-                COMMAND_BBT_CONFIG_MAP_TOPICS_REM;
+                COMMAND_BBT_CONFIG_MAP_TOPICS_REM,
+                COMMAND_BBT_DB_ADD_FAILED,
+                COMMAND_BBT_DB_ADD_SUCCESS,
+                COMMAND_BBT_DB_REM_NOT_EXIST,
+                COMMAND_BBT_DB_REM_SUCCESS,
+                COMMAND_BBT_DB_SET_NOT_EXIST,
+                COMMAND_BBT_DB_USER_GROUP_NOT_EXIST,
+                COMMAND_BBT_DB_USER_GROUP_SET;
     }
 
     public static YamlConfiguration CONFIG;
