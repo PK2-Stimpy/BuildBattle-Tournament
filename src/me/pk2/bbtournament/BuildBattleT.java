@@ -9,6 +9,7 @@ import me.pk2.bbtournament.commands.CommandExit;
 import me.pk2.bbtournament.config.ConfigLoader;
 import me.pk2.bbtournament.commands.CommandReload;
 import me.pk2.bbtournament.listeners.BuildZoneAddListener;
+import me.pk2.bbtournament.listeners.UserCacheListener;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.List;
@@ -45,6 +46,7 @@ public class BuildBattleT extends JavaPlugin {
 
         _LOG("Loading listeners...");
         getServer().getPluginManager().registerEvents(new BuildZoneAddListener(), this);
+        getServer().getPluginManager().registerEvents(new UserCacheListener(), this);
 
         _LOG("BuildBattleTournament has been enabled!");
     }
