@@ -64,6 +64,16 @@ public class UsersAPI {
         return -1;
     }
 
+    public static void setUserGroup(String uuid, int id) {
+        prepare();
+        if(isStringInsecure(uuid) || id < 0)
+            return;
+
+        try {
+            connection.prepareStatement("UPDATE users SET group_id = '" + id + "' WHERE uuid = '" + uuid + "'").executeUpdate();
+        } catch (Exception exception) { exception.printStackTrace(); }
+    }
+
     public static List<Integer> getUserList() {
         prepare();
 
