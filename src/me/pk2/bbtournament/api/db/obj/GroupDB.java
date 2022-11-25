@@ -30,6 +30,7 @@ public class GroupDB {
         GroupDB group = new GroupDB(id);
         group.pull();
 
-        return groups.put(id, group);
+        groups.put(id, group);
+        return group;
     }
 }

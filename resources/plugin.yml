@@ -11,3 +11,7 @@ commands:
     description: Sends you to the lobby
     aliases: [lobby, hub]
     usage: /exit
+  bbt:
+    description: Main build battle command
+    aliases: [buildbattletournament]
+    usage: /bbt

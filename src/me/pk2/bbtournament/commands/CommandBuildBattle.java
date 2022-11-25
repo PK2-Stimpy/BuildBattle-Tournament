@@ -16,6 +16,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Locale;
 import java.util.Objects;
 import java.util.concurrent.Executor;
@@ -49,7 +50,7 @@ public class CommandBuildBattle implements CommandExecutor {
         switch(page) {
             case 1:
                 sender.sendMessage(_COLOR("" +
-                        "  &a/bb-reload" +
+                        "  &a/bb-reload\n" +
                         "  &a/bb help [page]\n" +
                         "  &a/bb config save" +
                         "  &a/bb config mode ['PLAY'/'EDIT']\n" +
@@ -102,8 +103,11 @@ public class CommandBuildBattle implements CommandExecutor {
     }
 
     private void spacedArray(String[] arr, int sid, int lid) {
+        StringBuilder b = new StringBuilder();
         for(int i = lid; i < arr.length; i++)
-            arr[sid] = arr[i] + ((i==arr.length-1)?"":" ");
+            b.append(arr[i] + ((i==arr.length-1)?"":" "));
+
+        arr[sid] = b.toString();
     }
 
     @Override
@@ -384,15 +388,15 @@ public class CommandBuildBattle implements CommandExecutor {
                             case "world": {
                                 if(args.length < 4) {
                                     sender.sendMessage(_PREFIX(LANG.COMMAND_BBT_CONFIG_MAP_WORLD)
-                                            .replaceAll("%map_world%", server.map.world.getName()));
+                                            .replaceAll("%map_world%", server.map.world));
                                     break;
                                 }
 
                                 spacedArray(args, 3, 3);
 
-                                server.map.world = Bukkit.getWorld(args[3]);
+                                server.map.world = args[3];
                                 sender.sendMessage(_PREFIX(LANG.COMMAND_BBT_CONFIG_MAP_WORLD_SET)
-                                        .replaceAll("%map_world%", server.map.world.getName()));
+                                        .replaceAll("%map_world%", server.map.world));
                             } break;
                             case "min_players": {
                                 if(args.length < 4) {
@@ -654,29 +658,44 @@ public class CommandBuildBattle implements CommandExecutor {
                     return;
                 }
 
-                if(args.length < 2) {
+                if(args.length < 3) {
                     sendHelpCommand(sender, 4);
-                    break;
+                    return;
                 }
 
-                switch(args[1].toLowerCase(Locale.ROOT)) {
-                    case "list": {
-                        for(Integer i : Objects.requireNonNull(GroupsAPI.getGroups())) {
-                            GroupDB.cache(i).pull();
+                if(!args[1].equalsIgnoreCase("group")) {
+                    sendHelpCommand(sender, 4);
+                    return;
+                }
 
-                            sender.sendMessage(_PREFIX("&aGroup " + i + ": Name=&e'" + GroupDB.cache(i).name + "'&a, Display=&e'" + GroupDB.cache(i).display + "'"));
+                switch(args[2].toLowerCase(Locale.ROOT)) {
+                    case "list": {
+                        List<Integer> list = GroupsAPI.getGroups();
+                        sender.sendMessage(_PREFIX(LANG.COMMAND_BBT_DB_GROUP_LIST)
+                                .replaceAll("%groups%", String.valueOf(list.size())));
+
+                        for(int i = 0; i < Objects.requireNonNull(list).size(); i++) {
+                            int id = list.get(i);
+
+                            GroupDB group = GroupDB.cache(id);
+                            group.pull();
+
+                            sender.sendMessage(_PREFIX("&aGroup " + i + ": Name=&e'" + group.name + "'&a, Display=&e'" + group.display + "'"));
                         }
                     } break;
                     case "add": {
-                        if(args.length < 4) {
+                        if(args.length < 5) {
                             sendHelpCommand(sender, 4);
                             break;
                         }
 
-                        spacedArray(args, 3, 3);
+                        _LOG("BuildBatteCommand", "Array[4]: " + args[4]);
+                        spacedArray(args, 4, 4);
+                        _LOG("BuildBattleCommand", "Array[3]: " + args[3]);
+                        _LOG("BuildBatteCommand", "Array spaced[4]: " + args[4]);
 
-                        String name = args[2];
-                        String display = args[3];
+                        String name = args[3];
+                        String display = args[4];
                         GroupsAPI.newGroup(name, display);
 
                         if(GroupsAPI.getGroupID(name) == -1) {
@@ -687,12 +706,12 @@ public class CommandBuildBattle implements CommandExecutor {
                         sender.sendMessage(_PREFIX(LANG.COMMAND_BBT_DB_ADD_SUCCESS));
                     } break;
                     case "rem": {
-                        if(args.length < 3) {
+                        if(args.length < 4) {
                             sendHelpCommand(sender, 4);
                             break;
                         }
 
-                        String name = args[2];
+                        String name = args[3];
                         int id = GroupsAPI.getGroupID(name);
                         if(id == -1) {
                             sender.sendMessage(_PREFIX(LANG.COMMAND_BBT_DB_REM_NOT_EXIST));
@@ -703,40 +722,42 @@ public class CommandBuildBattle implements CommandExecutor {
                         sender.sendMessage(_PREFIX(LANG.COMMAND_BBT_DB_REM_SUCCESS));
                     } break;
                     case "set": {
-                        if(args.length < 4) {
+                        if(args.length < 5) {
                             sendHelpCommand(sender, 4);
                             break;
                         }
 
-                        String name = args[2];
+                        String name = args[3];
                         int id = GroupsAPI.getGroupID(name);
                         if(id == -1) {
                             sender.sendMessage(_PREFIX(LANG.COMMAND_BBT_DB_SET_NOT_EXIST));
                             break;
                         }
 
-                        spacedArray(args, 3, 3);
+                        spacedArray(args, 4, 4);
 
                         GroupDB group = GroupDB.cache(id);
-                        group.display = args[3];
+                        group.display = args[4];
                         group.push();
+
+                        sender.sendMessage(_PREFIX(LANG.COMMAND_BBT_DB_SET_SUCCESS));
                     } break;
                     case "user": {
-                        if(args.length < 3) {
+                        if(args.length < 4) {
                             sendHelpCommand(sender, 4);
                             break;
                         }
 
-                        UserDB user = UserDB.cache(UsersAPI.getUserId(_UUID(Bukkit.getPlayer(args[2]))));
+                        UserDB user = UserDB.cache(UsersAPI.getUserId(_UUID(Bukkit.getPlayer(args[3]))));
                         user.pull();
-                        if(args.length < 4) {
+                        if(args.length < 5) {
                             GroupDB group = GroupDB.cache(user.group_id);
 
                             sender.sendMessage(_PREFIX("&aUser " + args[2] + ": Group=&e" + group.name));
                             break;
                         }
 
-                        String group = args[3];
+                        String group = args[4];
                         int group_id = GroupsAPI.getGroupID(group);
                         if(group_id == -1) {
                             sender.sendMessage(_PREFIX(LANG.COMMAND_BBT_DB_USER_GROUP_NOT_EXIST));

@@ -80,10 +80,10 @@ public class UsersAPI {
         try {
             PreparedStatement statement = connection.prepareStatement("SELECT id FROM users");
             ResultSet set = statement.executeQuery();
-            if(set.getFetchSize() == 0)
-                return null;
-
             List<Integer> list = new ArrayList<>();
+            if(set.getFetchSize() == 0)
+                return list;
+
             while(set.next())
                 list.add(set.getInt("id"));
             return list;

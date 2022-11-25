@@ -2,9 +2,11 @@ package me.pk2.bbtournament.api.db;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
+import static me.pk2.bbtournament.util.LoadUtils._LOG;
 import static me.pk2.bbtournament.api.DatabaseAPI.*;
 
 public class GroupsAPI {
@@ -55,7 +57,7 @@ public class GroupsAPI {
             return null;
 
         try {
-            return connection.prepareStatement("SELECT name FROM `groups` WHERE id = '" + id + "'").executeQuery().getString("name");
+            return connection.prepareStatement("SELECT * FROM `groups` WHERE id = " + id).executeQuery().getString("name");
         } catch (Exception exception) { exception.printStackTrace(); }
         return null;
     }
@@ -66,7 +68,7 @@ public class GroupsAPI {
             return null;
 
         try {
-            return connection.prepareStatement("SELECT display FROM `groups` WHERE id = '" + id + "'").executeQuery().getString("display");
+            return connection.prepareStatement("SELECT * FROM `groups` WHERE id = " + id).executeQuery().getString("display");
         } catch (Exception exception) { exception.printStackTrace(); }
         return null;
     }
@@ -74,17 +76,16 @@ public class GroupsAPI {
     public static String getGroupDisplay(String name) { return getGroupDisplay(getGroupID(name)); }
 
     public static List<Integer> getGroups() {
+        _LOG("GroupsAPI", "Started getGroups transaction");
         prepare();
 
         try {
-            PreparedStatement statement = connection.prepareStatement("SELECT id FROM `groups`");
-            ResultSet set = statement.executeQuery();
-            if(set.getFetchSize() == 0)
-                return null;
-
+            Statement statement = connection.createStatement();
+            ResultSet set = statement.executeQuery("SELECT * FROM `groups`");
             List<Integer> list = new ArrayList<>();
             while(set.next())
                 list.add(set.getInt("id"));
+            _LOG("GroupsAPI", "Finished getGroups transaction with " + list.size() + " results");
             return list;
         } catch (Exception exception) { exception.printStackTrace(); }
 

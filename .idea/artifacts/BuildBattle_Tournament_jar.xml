@@ -1,0 +1,10 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="BuildBattle Tournament:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/BuildBattle_Tournament_jar</output-path>
+    <root id="archive" name="BuildBattle Tournament.jar">
+      <element id="module-output" name="BuildBattle Tournament" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/lib/com.mysql.jdbc_5.1.5.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/lib/sqlite-jdbc-3.39.4.0.jar" path-in-jar="/" />
+    </root>
+  </artifact>
+</component>
