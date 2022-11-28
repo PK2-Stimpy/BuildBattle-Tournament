@@ -22,7 +22,7 @@ public class User {
         if(getUserId(UUID) == -1)
             newUser(UUID);
 
-        userDB = UserDB.cache(getUserId(UUID));
+        userDB = UserDB.cache(UUID);
         userDB.pull();
     }
 

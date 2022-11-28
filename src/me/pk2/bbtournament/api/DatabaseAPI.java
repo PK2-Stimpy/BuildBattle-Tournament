@@ -13,7 +13,7 @@ public class DatabaseAPI {
     public static Connection connection = null;
 
     public static boolean isStringInsecure(String string) {
-        return string.contains("\"") || string.contains("'") || string.contains(";") || string.contains("`") || string.contains("--");
+        return string == null || string.contains("\"") || string.contains("'") || string.contains(";") || string.contains("`") || string.contains("--");
     }
 
     public static void connect() {

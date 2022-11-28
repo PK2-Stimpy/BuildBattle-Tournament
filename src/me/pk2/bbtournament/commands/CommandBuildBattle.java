@@ -748,7 +748,7 @@ public class CommandBuildBattle implements CommandExecutor {
                             break;
                         }
 
-                        UserDB user = UserDB.cache(UsersAPI.getUserId(_UUID(Bukkit.getPlayer(args[3]))));
+                        UserDB user = UserDB.cache(_UUID(Bukkit.getPlayer(args[3])));
                         user.pull();
                         if(args.length < 5) {
                             GroupDB group = GroupDB.cache(user.group_id);

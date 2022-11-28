@@ -36,11 +36,8 @@ public class UsersAPI {
         try {
             PreparedStatement statement = connection.prepareStatement("SELECT id FROM users WHERE uuid = '" + uuid + "'");
             ResultSet set = statement.executeQuery();
-            if(set.getFetchSize() == 0)
-                return -1;
 
-            set.next();
-            return set.getInt("id");
+            return set.next()?set.getInt("id"):-1;
         } catch (Exception exception) { exception.printStackTrace(); }
 
         return -1;
@@ -54,11 +51,8 @@ public class UsersAPI {
         try {
             PreparedStatement statement = connection.prepareStatement("SELECT group_id FROM users WHERE uuid = '" + uuid + "'");
             ResultSet set = statement.executeQuery();
-            if(set.getFetchSize() == 0)
-                return -1;
 
-            set.next();
-            return set.getInt("group_id");
+            return set.next()?set.getInt("group_id"):-1;
         } catch (Exception exception) { exception.printStackTrace(); }
 
         return -1;
@@ -81,8 +75,6 @@ public class UsersAPI {
             PreparedStatement statement = connection.prepareStatement("SELECT id FROM users");
             ResultSet set = statement.executeQuery();
             List<Integer> list = new ArrayList<>();
-            if(set.getFetchSize() == 0)
-                return list;
 
             while(set.next())
                 list.add(set.getInt("id"));
@@ -98,11 +90,8 @@ public class UsersAPI {
         try {
             PreparedStatement statement = connection.prepareStatement("SELECT uuid FROM users WHERE id = '" + id + "'");
             ResultSet set = statement.executeQuery();
-            if(set.getFetchSize() == 0)
-                return null;
 
-            set.next();
-            return set.getString("uuid");
+            return set.next()?set.getString("uuid"):null;
         } catch (Exception exception) { exception.printStackTrace(); }
 
         return null;
