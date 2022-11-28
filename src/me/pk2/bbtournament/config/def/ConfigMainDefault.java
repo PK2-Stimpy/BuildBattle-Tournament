@@ -46,7 +46,7 @@ public class ConfigMainDefault {
         }
         public static class map {
             public static String name;
-            public static World world;
+            public static String world;
             public static int min_players;
             public static class win_event {
                 public static int positions;
@@ -66,6 +66,8 @@ public class ConfigMainDefault {
 
     public static void saveDefault() {
         _LOG("config.yml", "Saving default config.yml...");
+
+        BuildBattleT.INSTANCE.getDataFolder().mkdirs();
 
         PrintWriter writer;
         try {
@@ -125,7 +127,7 @@ public class ConfigMainDefault {
         server.scoreboard.server_ip = CONFIG.getString("server.scoreboard.server_ip");
 
         server.map.name = CONFIG.getString("server.map.name");
-        server.map.world = getWorldOrDefault(CONFIG.getString("server.map.world"));
+        server.map.world = CONFIG.getString("server.map.world");
         server.map.min_players = CONFIG.getInt("server.map.min_players");
 
         server.map.win_event.positions = CONFIG.getInt("server.map.win_event.positions");
@@ -229,7 +231,7 @@ public class ConfigMainDefault {
         CONFIG.set("server.scoreboard.server_ip", server.scoreboard.server_ip);
         
         CONFIG.set("server.map.name", server.map.name);
-        CONFIG.set("server.map.world", server.map.world.getName());
+        CONFIG.set("server.map.world", server.map.world);
         CONFIG.set("server.map.min_players", server.map.min_players);
 
         CONFIG.set("server.map.win_event.positions", server.map.win_event.positions);
