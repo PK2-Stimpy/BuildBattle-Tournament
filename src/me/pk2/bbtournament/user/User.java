@@ -8,7 +8,7 @@ import static me.pk2.bbtournament.api.db.UsersAPI.*;
 
 public class User {
     public final String UUID;
-    public final Player player;
+    public Player player;
     private UserDB userDB;
 
     public User(Player player) {

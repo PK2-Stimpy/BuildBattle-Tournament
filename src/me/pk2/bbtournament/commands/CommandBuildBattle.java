@@ -783,11 +783,11 @@ public class CommandBuildBattle implements CommandExecutor {
 
                 try {
                     int page = Integer.parseInt(args[1]);
-                    if(page < 1 || page > 3)
+                    if(page < 1)
                         throw new NumberFormatException();
 
                     sendHelpCommand(sender, page);
-                } catch (NumberFormatException e) {
+                } catch (Exception e) {
                     sender.sendMessage(_PREFIX(LANG.COMMAND_BBT_INVALID_PAGE));
                 }
             } break;

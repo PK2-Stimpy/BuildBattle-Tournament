@@ -96,7 +96,8 @@ public class ConfigLangDefault {
                 COMMAND_BBT_DB_USER_GROUP_NOT_EXIST,
                 COMMAND_BBT_DB_USER_GROUP_SET,
                 COMMAND_BBT_DB_SET_SUCCESS,
-                COMMAND_BBT_DB_GROUP_LIST;
+                COMMAND_BBT_DB_GROUP_LIST,
+                EVENT_BBT_PLAYER_JOIN;
     }
 
     public static YamlConfiguration CONFIG;

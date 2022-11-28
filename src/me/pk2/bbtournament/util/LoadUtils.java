@@ -22,4 +22,5 @@ public class LoadUtils {
     public static String _COLOR(String text) { return ChatColor.translateAlternateColorCodes('&', text); }
     public static String _PREFIX(String text) { return _COLOR(LANG.PREFIX + text); }
     public static String _UUID(Player player) { return player.getUniqueId().toString().toLowerCase(); }
+    public static void _RUN1(Runnable runnable) { Bukkit.getScheduler().runTaskLater(BuildBattleT.INSTANCE, runnable, 1L); }
 }
