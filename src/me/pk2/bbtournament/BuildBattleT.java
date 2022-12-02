@@ -11,6 +11,9 @@ import me.pk2.bbtournament.config.ConfigLoader;
 import me.pk2.bbtournament.commands.CommandReload;
 import me.pk2.bbtournament.listeners.BuildZoneAddListener;
 import me.pk2.bbtournament.listeners.UserCacheListener;
+import me.pk2.bbtournament.game.GameStorage;
+import me.pk2.bbtournament.game.state.GameState;
+import me.tigerhix.lib.scoreboard.ScoreboardLib;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.List;
@@ -21,6 +24,8 @@ public class BuildBattleT extends JavaPlugin {
     @Override
     public void onEnable() {
         INSTANCE = this;
+
+        GameStorage.gameState = GameState.WAITING;
 
         _LOG("Registering bungee channels...");
         getServer().getMessenger().registerOutgoingPluginChannel(this, "BungeeCord");
@@ -40,6 +45,9 @@ public class BuildBattleT extends JavaPlugin {
         if(groups == null || groups.size() == 0)
             _LOG("No groups found in database!");
         else _LOG("Found " + groups.size() + " groups in database!");
+
+        _LOG("Loading score...");
+        ScoreboardLib.setPluginInstance(this);
 
         _LOG("Loading commands...");
         getCommand("bb-reload").setExecutor(new CommandReload());

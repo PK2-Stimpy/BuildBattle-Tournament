@@ -97,7 +97,8 @@ public class ConfigLangDefault {
                 COMMAND_BBT_DB_USER_GROUP_SET,
                 COMMAND_BBT_DB_SET_SUCCESS,
                 COMMAND_BBT_DB_GROUP_LIST,
-                EVENT_BBT_PLAYER_JOIN;
+                EVENT_BBT_PLAYER_JOIN,
+                EVENT_BBT_PLAYER_QUIT;
     }
 
     public static YamlConfiguration CONFIG;

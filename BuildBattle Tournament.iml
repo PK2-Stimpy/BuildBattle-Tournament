@@ -20,5 +20,6 @@
     <orderEntry type="library" name="sqlite-jdbc-3.39.4.0" level="project" />
     <orderEntry type="library" name="com.mysql.jdbc_5.1.5" level="project" />
     <orderEntry type="library" name="paperspigot" level="project" />
+    <orderEntry type="library" name="ScoreboardLib" level="project" />
   </component>
 </module>

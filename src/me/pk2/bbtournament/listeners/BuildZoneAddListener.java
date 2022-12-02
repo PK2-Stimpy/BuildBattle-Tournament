@@ -16,6 +16,7 @@ import static me.pk2.bbtournament.commands.CommandBuildBattle.AddBuildStatus.*;
 import static me.pk2.bbtournament.commands.CommandBuildBattle.hashZone;
 import static me.pk2.bbtournament.config.def.ConfigMainDefault.server;
 import static me.pk2.bbtournament.config.def.ConfigLangDefault.LANG;
+import static me.pk2.bbtournament.util.LoadUtils._ISEDIT;
 import static me.pk2.bbtournament.util.LoadUtils._PREFIX;
 import static me.pk2.bbtournament.util.LoadUtils._UUID;
 
@@ -24,6 +25,9 @@ public class BuildZoneAddListener implements Listener {
 
     @EventHandler
     public void onChat(AsyncPlayerChatEvent event) {
+        if(!_ISEDIT())
+            return;
+
         Player player = event.getPlayer();
         if(hashZone.containsKey(_UUID(player))) {
             if (event.getMessage().equalsIgnoreCase("cancel")) {
@@ -97,6 +101,9 @@ public class BuildZoneAddListener implements Listener {
 
     @EventHandler
     public void onQuit(PlayerQuitEvent event) {
+        if(!_ISEDIT())
+            return;
+
         Player player = event.getPlayer();
         if(hashZone.containsKey(_UUID(player))) {
             hashZone.remove(_UUID(player));
@@ -106,6 +113,9 @@ public class BuildZoneAddListener implements Listener {
 
     @EventHandler
     public void onKick(PlayerKickEvent event) {
+        if(!_ISEDIT())
+            return;
+
         Player player = event.getPlayer();
         if(hashZone.containsKey(_UUID(player))) {
             hashZone.remove(_UUID(player));
