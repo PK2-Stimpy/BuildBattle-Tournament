@@ -13,5 +13,5 @@ commands:
     usage: /exit
   bbt:
     description: Main build battle command
-    aliases: [buildbattletournament]
+    aliases: [buildbattletournament, bb]
     usage: /bbt

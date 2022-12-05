@@ -2,9 +2,11 @@ package me.pk2.bbtournament.listeners;
 
 import me.pk2.bbtournament.api.db.GroupsAPI;
 import me.pk2.bbtournament.config.def.ConfigMainDefault;
+import me.pk2.bbtournament.scoreboard.ScoreboardH;
 import me.pk2.bbtournament.user.User;
 import me.pk2.bbtournament.game.GameStorage;
 import me.pk2.bbtournament.game.state.GameState;
+import me.tigerhix.lib.scoreboard.ScoreboardLib;
 import org.bukkit.Bukkit;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -62,6 +64,8 @@ public class UserCacheListener implements Listener {
             user.isPlaying = true;
             playerCount++;
             Bukkit.broadcastMessage(LANG.EVENT_BBT_PLAYER_JOIN.replaceAll("%player%", user.player.getName()));
+
+            ScoreboardLib.createScoreboard(user.player).setHandler(new ScoreboardH().handler);
         });
     }
 

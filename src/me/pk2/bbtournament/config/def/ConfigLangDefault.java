@@ -98,7 +98,13 @@ public class ConfigLangDefault {
                 COMMAND_BBT_DB_SET_SUCCESS,
                 COMMAND_BBT_DB_GROUP_LIST,
                 EVENT_BBT_PLAYER_JOIN,
-                EVENT_BBT_PLAYER_QUIT;
+                EVENT_BBT_PLAYER_QUIT,
+                EVENT_BBT_WAITING_STARTING,
+                EVENT_BBT_STARTING_WAITING,
+                EVENT_BBT_STARTING_INGAME,
+                EVENT_BBT_STARTING_COUNTDOWN,
+                EVENT_BBT_INGAME_VOTING,
+                EVENT_BBT_INGAME_COUNTDOWN;
     }
 
     public static YamlConfiguration CONFIG;

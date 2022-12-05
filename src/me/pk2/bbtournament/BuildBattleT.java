@@ -9,6 +9,7 @@ import me.pk2.bbtournament.commands.CommandBuildBattle;
 import me.pk2.bbtournament.commands.CommandExit;
 import me.pk2.bbtournament.config.ConfigLoader;
 import me.pk2.bbtournament.commands.CommandReload;
+import me.pk2.bbtournament.game.GameThread;
 import me.pk2.bbtournament.listeners.BuildZoneAddListener;
 import me.pk2.bbtournament.listeners.UserCacheListener;
 import me.pk2.bbtournament.game.GameStorage;
@@ -48,6 +49,9 @@ public class BuildBattleT extends JavaPlugin {
 
         _LOG("Loading score...");
         ScoreboardLib.setPluginInstance(this);
+
+        _LOG("Loading game thread...");
+        GameThread.initThread();
 
         _LOG("Loading commands...");
         getCommand("bb-reload").setExecutor(new CommandReload());

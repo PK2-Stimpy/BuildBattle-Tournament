@@ -16,7 +16,7 @@ import static me.pk2.bbtournament.util.LoadUtils._COLOR;
 
 public class ScoreboardH {
     public static final SimpleDateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy");
-    public static ScoreboardHandler handler = new ScoreboardHandler() {
+    public ScoreboardHandler handler = new ScoreboardHandler() {
         @Override
         public String getTitle(Player player) {
             return _COLOR(server.scoreboard.network_name);
